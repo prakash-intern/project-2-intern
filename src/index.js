@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended: false})); 
 
-app.use('/', router); 
+app.use('/functionup/', router); 
 
 mongoose.connect(process.env.MONGODB_CLUSTER).then(()=>{
     console.log("MonogoDB connected"); 
