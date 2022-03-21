@@ -1,24 +1,42 @@
-const collegeSchema = require('../model/college.model'); 
+const collegeSchema = require('../model/college.model');
+const clientError = require('../helpers/clientError'); 
+const internSchema = require('../model/intern.model'); 
 
-const createCollege = async (req, res)=>{
-    try{
-        const data = req.body; 
-        const dataRes = await collegeSchema.create(data); 
+const createCollege = async (req, res) => {
+    try {
+        const data = req.body;
+        const dataRes = await collegeSchema.create(data);
         return res.status(201).send({
             status: true,
             message: 'Data instered successfully !',
             data: dataRes
+        });
+    } catch (error) {
+        clientError.handleError(res, error); 
+    }
+}
+
+const fetchDetails = async(req, res)=>{
+    try {
+        const collegeName = req.query.collegeName
+        if(!collegeName){
+            return res.status(400).send({
+                status: false,
+                message: 'collegeName must be present !'
+            });
+        }
+        const fetchData = await collegeSchema.findOne({
+            name: collegeName
+        });
+        const interests = await internSchema.find({
+            collegeId: fetchData._id
         }); 
-    }catch(error){
-        const key = Object.keys(error['errors']); 
-        key.forEach((key)=>{
-            if(error['errors'][key]['kind'] === "required"){
-                res.status(400).send({
-                    status: false,
-                    message: error.message
-                }); 
-            }
+        fetchData["interests"] = interests; 
+        return res.status(200).send({
+            status: true,
+            data: fetchData
         }); 
+    } catch (error) {
         return res.status(500).send({
             status: false,
             message: error.message
@@ -27,5 +45,6 @@ const createCollege = async (req, res)=>{
 }
 
 module.exports = {
-    createCollege
+    createCollege,
+    fetchDetails
 }

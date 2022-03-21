@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'); 
+const uniqueValidator = require('mongoose-unique-validator');
 
 const collegeSchema = new mongoose.Schema({
     name: {
@@ -24,5 +25,7 @@ const collegeSchema = new mongoose.Schema({
 },{
     timestamps: true
 }); 
+uniqueValidator.defaults.message = "The college name is already registerd";
+collegeSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('College', collegeSchema); //colleges 

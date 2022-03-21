@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); 
 const IsEmail = require('isemail');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const internSchema = new mongoose.Schema({
     name: {
@@ -16,13 +17,14 @@ const internSchema = new mongoose.Schema({
         validate: {
             validator: (data)=>{
                 return IsEmail.validate(data)
-            }
+            },
+            message: 'Enter a valid Email Id'
         }
     },
     mobile:{
         type: Number,
         required: [true, 'The mobile field is required'],
-        min: 10,
+        min: [10, 'Enter the Valid Number'],
         unique: true,
         trim: true
     },
@@ -37,5 +39,8 @@ const internSchema = new mongoose.Schema({
 },{
     timestamps: true
 }); 
+
+uniqueValidator.defaults.message = "The {PATH} is already registerd";
+internSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Intern', internSchema); //interns 
