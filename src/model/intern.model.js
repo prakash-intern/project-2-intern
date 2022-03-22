@@ -24,7 +24,6 @@ const internSchema = new mongoose.Schema({
     mobile:{
         type: String,
         required: [true, 'The mobile field is required'],
-        // minlength: [10, 'Enter the Valid Number'],
         unique: true,
         trim: true,
         match: /^[0-9]{10}$/

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const handleError = (res, error)=>{
     if(error['errors'] != null){  
         const key = Object.keys(error['errors']);
@@ -34,6 +36,11 @@ const handleError = (res, error)=>{
     });
 }
 
+const handleObjectId = (id)=>{
+    return mongoose.Types.ObjectId.isValid(id); 
+}
+
 module.exports = {
-    handleError
+    handleError,
+    handleObjectId
 }
