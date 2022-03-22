@@ -41,7 +41,7 @@ const fetchDetails = async(req, res)=>{
             updatedAt: 0,
             __v: 0
         });
-        if(!fetchData){
+        if(!fetchData){ 
             return res.status(404).send({
                 status: false,
                 message: 'College not found'

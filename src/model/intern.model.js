@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'); 
 const IsEmail = require('isemail');
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator'); 
 
 const internSchema = new mongoose.Schema({
     name: {

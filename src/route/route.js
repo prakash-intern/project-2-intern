@@ -8,9 +8,6 @@ router.post('/interns', internController.createInterns);
 router.get('/collegeDetails', collegeController.fetchDetails); 
 
 
-
-
-
 module.exports = router; 
 
 

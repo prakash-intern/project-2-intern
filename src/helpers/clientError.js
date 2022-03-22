@@ -1,9 +1,5 @@
-const mongoose = require('mongoose')
-
 const handleError = (res, error)=>{
-    // res.send(error)
-    // return false; 
-    if(error['errors'] != null){
+    if(error['errors'] != null){  
         const key = Object.keys(error['errors']);
         const requiredField = [], uniqueField = [];
         key.forEach((key) => {
@@ -37,11 +33,7 @@ const handleError = (res, error)=>{
         message: error.message
     });
 }
-const handleObjectId = (id)=>{
-    return mongoose.Types.ObjectId.isValid(id); 
-}
 
 module.exports = {
-    handleError,
-    handleObjectId
+    handleError
 }
