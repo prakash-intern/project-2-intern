@@ -25,51 +25,53 @@ const createCollege = async (req, res) => {
 }
 
 const fetchDetails = async(req, res)=>{
-    try {
-        const collegeName = req.query.collegeName
-        if(!collegeName){
-            return res.status(400).send({
-                status: false,
-                message: 'CollegeName must be present !'
-            });
-        }
-        const fetchData = await collegeSchema.findOne({
-            name: collegeName
-        }).select({
-            isDeleted: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            __v: 0
-        });
-        if(!fetchData){
-            return res.status(404).send({
-                status: false,
-                message: 'College not found'
-            });
-        }
-        const interests = await internSchema.find({
-            collegeId: fetchData._id
-        }).select({
-            isDeleted: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            collegeId: 0,
-            __v: 0
-        }); 
-        const allData = fetchData.toObject();  //convert mongoose object to normal object /* https://mongoosejs.com/docs/api.html#document_Document-toObject*/
-        allData.internCount = interests.length
-        allData.interests = interests;
+    try{
+       const collegeName=req.query.collegeName;
+       if(!collegeName){
+        return res.status(400).send({
+            status:false,
+            msg:'collegename must be  present'
+        })
+       }
+       const data=await collegeSchema.findOne({
+           name:collegeName
+       }).select({
+        isDeleted: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0
+    });
+       const collegeId= data._id;
+       const interest= await internSchema.find({
+           collegeId:collegeId
+       }).select({
+        isDeleted: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        collegeId: 0,
+        __v: 0
+    });
+       const  wholeData=data.toObject();
+       wholeData.interestCount=interest.length;
+       wholeData.interest=interest;
 
-        return res.status(200).send({
-            status: true,
-            data: allData
-        }); 
-    } catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        }); 
+
+       return  res.status(200).send({
+                status: true,
+                data: wholeData
+            });
+
     }
+    catch(err){
+        return res.status(500).send({
+            status:false,
+            msg:err.message
+        })
+        
+    }
+
+
+
 }
 
 module.exports = {
