@@ -3,7 +3,13 @@ const clientError = require('../helpers/clientError');
 
 const createInterns = async(req, res)=>{
     try{
-        const data = req.body; 
+        const data = req.body;
+        if(!clientError.handleObjectId(data.collegeId)){
+            return res.status(400).send({
+                status: false,
+                message: 'collegeId must be a Object Id'
+            });
+        }
         const dataRes = await internSchema.create(data); 
         return res.status(201).send({
             status: true,

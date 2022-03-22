@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const handleError = (res, error)=>{
     // res.send(error)
     // return false; 
@@ -8,6 +10,15 @@ const handleError = (res, error)=>{
             if (error['errors'][key]['kind'] === "required") {
                 requiredField.push(error['errors'][key]['message']);
             }
+            else if(error['errors'][key]['kind'] === "user defined"){
+                requiredField.push(error['errors'][key]['message']);
+            }
+            else if(error['errors'][key]['kind'] === "regexp"){
+                requiredField.push(error['errors'][key]['message'] = "Mobile number should be only 10 digits");
+            }
+            else if (error['errors'][key]['kind'] === "unique") {
+                uniqueField.push(error['errors'][key]['message']);
+            }
         });
         if (requiredField.length > 0) {
             return res.status(400).send({
@@ -15,32 +26,22 @@ const handleError = (res, error)=>{
                 message: requiredField
             });
         }
-        // for unique data
-        key.forEach((key) => {
-            if (error['errors'][key]['kind'] === "unique") {
-                uniqueField.push(error['errors'][key]['message']);
-            }
-        });
         if(uniqueField.length > 0)
         return res.status(409).send({
             status: false,
             message: uniqueField
         }); 
-
-        // for email format
-        if (error['errors']['email']['kind'] === "user defined") {
-            return res.status(400).send({
-                status: false,
-                message: error['errors']['email'].message
-            });
-        }
     }
     return res.status(500).send({
         status: false,
         message: error.message
     });
 }
+const handleObjectId = (id)=>{
+    return mongoose.Types.ObjectId.isValid(id); 
+}
 
 module.exports = {
-    handleError
+    handleError,
+    handleObjectId
 }

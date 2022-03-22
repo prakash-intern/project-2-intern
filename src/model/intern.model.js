@@ -22,11 +22,12 @@ const internSchema = new mongoose.Schema({
         }
     },
     mobile:{
-        type: Number,
+        type: String,
         required: [true, 'The mobile field is required'],
-        min: [10, 'Enter the Valid Number'],
+        // minlength: [10, 'Enter the Valid Number'],
         unique: true,
-        trim: true
+        trim: true,
+        match: /^[0-9]{10}$/
     },
     collegeId: {
         type: mongoose.Types.ObjectId,
