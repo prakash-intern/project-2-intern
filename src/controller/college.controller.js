@@ -34,7 +34,8 @@ const fetchDetails = async(req, res)=>{
             });
         }
         const fetchData = await collegeSchema.findOne({
-            name: collegeName
+            name: collegeName,
+            isDeleted: false
         }).select({
             isDeleted: 0,
             createdAt: 0,
@@ -48,7 +49,8 @@ const fetchDetails = async(req, res)=>{
             });
         }
         const interests = await internSchema.find({
-            collegeId: fetchData._id
+            collegeId: fetchData._id,
+            isDeleted: false
         }).select({
             isDeleted: 0,
             createdAt: 0,
