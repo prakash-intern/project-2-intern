@@ -26,7 +26,9 @@ const internSchema = new mongoose.Schema({
         required: [true, 'The mobile field is required'],
         unique: true,
         trim: true,
-        match: /^[0-9]{10}$/
+        match: /^[6789]\d{9}$/
+
+        /*  /^[0-9]{10}$/ */ /* \d for 0-9 */
     },
     collegeId: {
         type: mongoose.Types.ObjectId,

@@ -3,6 +3,7 @@ const clientError = require('../helpers/clientError');
 const internSchema = require('../model/intern.model'); 
 
 const createCollege = async (req, res) => {
+    // https://functionup-stg.s3.ap-south-1.amazonaws.com/thorium/gcr.jpg
     try {
         const data = req.body;
         if(data.logoLink){

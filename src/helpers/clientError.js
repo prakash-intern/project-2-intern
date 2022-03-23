@@ -12,7 +12,7 @@ const handleError = (res, error)=>{
                 requiredField.push(error['errors'][key]['message']);
             }
             else if(error['errors'][key]['kind'] === "regexp"){
-                requiredField.push(error['errors'][key]['message'] = "Mobile number should be only 10 digits");
+                requiredField.push(error['errors'][key]['message'] = "Mobile number should be 10 digits and only Indains numbers are allowed");
             }
             else if (error['errors'][key]['kind'] === "unique") {
                 uniqueField.push(error['errors'][key]['message']);
@@ -25,7 +25,7 @@ const handleError = (res, error)=>{
             });
         }
         if(uniqueField.length > 0)
-        return res.status(409).send({
+        return res.status(400).send({  //409
             status: false,
             message: uniqueField
         }); 
