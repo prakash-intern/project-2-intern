@@ -13,6 +13,13 @@ const createInterns = async(req, res)=>{
                 });
             }
         }
+        const collegeIdRes = await collegeSchema.findOne({_id: data.collegeId}); 
+        if(!collegeIdRes){
+            return res.status(404).send({
+                status: false,
+                message: 'College Id not found !'
+            });
+        }
         const dataRes = await internSchema.create(data); 
         return res.status(201).send({
             status: true,
