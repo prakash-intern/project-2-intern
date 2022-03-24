@@ -12,7 +12,7 @@ const handleError = (res, error)=>{
                 requiredField.push(error['errors'][key]['message']);
             }
             else if(error['errors'][key]['kind'] === "regexp"){
-                requiredField.push(error['errors'][key]['message'] = "Mobile number should be 10 digits and only Indains numbers are allowed");
+                requiredField.push(error['errors'][key]['message']);
             }
             else if (error['errors'][key]['kind'] === "unique") {
                 uniqueField.push(error['errors'][key]['message']);

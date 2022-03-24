@@ -26,7 +26,7 @@ const internSchema = new mongoose.Schema({
         required: [true, 'The mobile field is required'],
         unique: true,
         trim: true,
-        match: /^[6789]\d{9}$/
+        match: [/^[6789]\d{9}$/, 'Mobile number should be 10 digits and only Indains numbers are allowed']
 
         /*  /^[0-9]{10}$/ */ /* \d for 0-9 */
     },
