@@ -5,21 +5,20 @@ const clientError = require('../helpers/clientError');
 const createInterns = async(req, res)=>{
     try{
         const data = req.body;
-        if(data.collegeId){
-            if(!clientError.handleObjectId(data.collegeId)){
-                return res.status(400).send({
-                    status: false,
-                    message: 'collegeId must be a Object Id'
-                });
-            }
-        }
-        const collegeIdRes = await collegeSchema.findOne({_id: data.collegeId}); 
-        if(!collegeIdRes){
-            return res.status(404).send({
+        if(!data.collegeName){
+            return res.status(400).send({
                 status: false,
-                message: 'College Id not found !'
+                message: 'collegeName field is required'
             });
         }
+        const collegeRes = await collegeSchema.findOne({name: data.collegeName}); 
+        if(!collegeRes){
+            return res.status(404).send({
+                status: false,
+                message: 'College not found !'
+            });
+        }
+        data.collegeId = collegeRes._id; 
         const dataRes = await internSchema.create(data); 
         return res.status(201).send({
             status: true,
